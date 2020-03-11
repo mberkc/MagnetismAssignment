@@ -216,11 +216,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa121589ba99f16409e017b107b014a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  draggableTag: Draggable
   dragTargetsLayerIndex: 8
   rayMask: 0
   maxDistance: 100
-  forceConstant: 52
+  speed: 51.6
 --- !u!4 &498681779
 Transform:
   m_ObjectHideFlags: 0
@@ -365,8 +364,7 @@ MonoBehaviour:
   negativeMaterial: {fileID: 2100000, guid: 772db0429fb9e264385803444a48f39f, type: 2}
   positiveMaterial: {fileID: 2100000, guid: a70caa486e8270e4588810ac43a036aa, type: 2}
   polarization: 1
-  magOfMagneticCharge: 200
-  magnetismColliderRadius: 3
+  magOfMagneticCharge: 80
   isMagnet: 0
 --- !u!54 &590293259
 Rigidbody:
@@ -382,7 +380,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!65 &590293260
 BoxCollider:
@@ -452,7 +450,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 590293257}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.8580904, y: -0.33918667, z: -0.83753395}
+  m_LocalPosition: {x: 3, y: 0.5, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1190333309}
@@ -655,8 +653,8 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
+  m_HDR: 0
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -800,7 +798,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190333308}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.8580904, y: 0.83918667, z: 3.837534}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1871188704}
@@ -977,7 +975,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1744537253}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1419096, y: -0.33918667, z: -0.83753395}
+  m_LocalPosition: {x: -3, y: 0.5, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1190333309}
@@ -997,7 +995,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &1744537259
 MonoBehaviour:
@@ -1014,8 +1012,7 @@ MonoBehaviour:
   negativeMaterial: {fileID: 2100000, guid: 772db0429fb9e264385803444a48f39f, type: 2}
   positiveMaterial: {fileID: 2100000, guid: a70caa486e8270e4588810ac43a036aa, type: 2}
   polarization: 1
-  magOfMagneticCharge: 200
-  magnetismColliderRadius: 3
+  magOfMagneticCharge: 80
   isMagnet: 0
 --- !u!1 &1749084456
 GameObject:
@@ -1098,8 +1095,7 @@ MonoBehaviour:
   negativeMaterial: {fileID: 2100000, guid: 772db0429fb9e264385803444a48f39f, type: 2}
   positiveMaterial: {fileID: 2100000, guid: a70caa486e8270e4588810ac43a036aa, type: 2}
   polarization: -1
-  magOfMagneticCharge: 200
-  magnetismColliderRadius: 3
+  magOfMagneticCharge: 80
   isMagnet: 0
 --- !u!54 &1805643685
 Rigidbody:
@@ -1115,7 +1111,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!65 &1805643686
 BoxCollider:
@@ -1185,7 +1181,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1805643683}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.8580904, y: -0.33918667, z: -7.837534}
+  m_LocalPosition: {x: 3, y: 0.5, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1190333309}
@@ -1280,7 +1276,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871188700}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.8580904, y: -0.33918667, z: -4.337534}
+  m_LocalPosition: {x: 0, y: 0.5, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1190333309}
@@ -1300,7 +1296,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &1871188706
 MonoBehaviour:
@@ -1316,8 +1312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 58862769868d3ab48843cd3109b4c58b, type: 2}
   polarization: 0
-  magneticChargeCapacity: 50
-  magnetismColliderRadius: 3
+  magneticChargeCapacity: 40
   isMetal: 0
 --- !u!1 &1888880774
 GameObject:
@@ -1483,8 +1478,7 @@ MonoBehaviour:
   negativeMaterial: {fileID: 2100000, guid: 772db0429fb9e264385803444a48f39f, type: 2}
   positiveMaterial: {fileID: 2100000, guid: a70caa486e8270e4588810ac43a036aa, type: 2}
   polarization: -1
-  magOfMagneticCharge: 200
-  magnetismColliderRadius: 3
+  magOfMagneticCharge: 80
   isMagnet: 0
 --- !u!54 &1947767193
 Rigidbody:
@@ -1500,7 +1494,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!65 &1947767194
 BoxCollider:
@@ -1570,7 +1564,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1947767191}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1419096, y: -0.33918667, z: -7.837534}
+  m_LocalPosition: {x: -3, y: 0.5, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1190333309}

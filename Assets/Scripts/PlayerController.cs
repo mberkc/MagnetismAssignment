@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    [SerializeField] string draggableTag = "Draggable"; // Tag for draggable objects
-
     [SerializeField] int dragTargetsLayerIndex = 8, rayMask; // Layer & Mask for draggable objects
-
-    [SerializeField] float maxDistance = 100f; // Max distance for Raycasting
-
-    [SerializeField] float forceConstant = 51.6f; // Force constant
+    [SerializeField] float maxDistance = 100f; // Max distance for Raycasting, for performance
+    [SerializeField] float speed = 51.6f; // Force constant
 
     Camera cam;
     Ray ray;
@@ -39,8 +35,11 @@ public class PlayerController : MonoBehaviour {
             if (Physics.Raycast (ray, out hit, maxDistance, rayMask)) {
 
                 // If the target has Draggable tag
-                if (hit.transform.CompareTag (draggableTag)) {
-                    lastPos = hit.point;
+                if (hit.transform.CompareTag (Constants.draggableTag)) {
+
+                    // Converting Mouse Position to World Position
+                    lastPos = cam.ScreenToWorldPoint (Input.mousePosition);
+
                     controlledObjectRb = hit.transform.GetComponent<Rigidbody> ();
                 }
             }
@@ -52,19 +51,11 @@ public class PlayerController : MonoBehaviour {
             // Drag
             if (Input.GetMouseButton (0)) {
                 controlledObjectRb.velocity = Vector3.zero; // Resets the velocity
-                ray = cam.ScreenPointToRay (Input.mousePosition);
 
-                // If the raycast is still a success
-                if (Physics.Raycast (ray, out hit, maxDistance, rayMask)) {
-                    if (hit.transform.CompareTag (draggableTag)) {
-                        Vector3 currentPos = hit.point;
-                        controlledObjectRb.AddForce ((currentPos - lastPos) * forceConstant, ForceMode.VelocityChange);
-                        lastPos = currentPos;
-                    }
-                } else { // If the raycast is a failure
-                    controlledObjectRb.velocity = Vector3.zero; // Resets the velocity
-                    controlledObjectRb = null;
-                }
+                // Converting Mouse Position to World Position
+                Vector3 currentPos = cam.ScreenToWorldPoint (Input.mousePosition);
+                controlledObjectRb.AddForce ((currentPos - lastPos) * speed, ForceMode.VelocityChange);
+                lastPos = currentPos;
             }
 
             // Drag End
@@ -73,6 +64,7 @@ public class PlayerController : MonoBehaviour {
                 controlledObjectRb = null;
             }
         }
+        // Mouse Input - End
 
         // Touch Input
         if (Input.touchCount > 0) {
@@ -80,14 +72,16 @@ public class PlayerController : MonoBehaviour {
             switch (touch.phase) {
 
                 case TouchPhase.Began: // Touch Start
-                    ray = cam.ScreenPointToRay (Input.mousePosition);
+                    ray = cam.ScreenPointToRay (touch.position);
 
                     // If the raycast is a success
                     if (Physics.Raycast (ray, out hit, maxDistance, rayMask)) {
 
                         // If the target has Draggable tag
-                        if (hit.transform.CompareTag (draggableTag)) {
-                            lastPos = hit.point;
+                        if (hit.transform.CompareTag (Constants.draggableTag)) {
+
+                            // Converting Touch Position to World Position
+                            lastPos = cam.ScreenToWorldPoint (touch.position);
                             controlledObjectRb = hit.transform.GetComponent<Rigidbody> ();
                         }
                     }
@@ -96,24 +90,15 @@ public class PlayerController : MonoBehaviour {
                 case TouchPhase.Moved: // Drag
                     if (controlledObjectRb != null) {
                         controlledObjectRb.velocity = Vector3.zero; // Resets the velocity
-                        ray = cam.ScreenPointToRay (Input.mousePosition);
 
-                        // If the raycast is still a success
-                        if (Physics.Raycast (ray, out hit, maxDistance, rayMask)) {
-                            if (hit.transform.CompareTag (draggableTag)) {
-                                // Touch Start
-                                Vector3 currentPos = hit.point;
-                                controlledObjectRb.AddForce ((currentPos - lastPos) * forceConstant, ForceMode.VelocityChange);
-                                lastPos = currentPos;
-                            }
-                        } else { // If the raycast is a failure
-                            controlledObjectRb.velocity = Vector3.zero; // Resets the velocity
-                            controlledObjectRb = null;
-                        }
+                        // Converting Touch Position to World Position
+                        Vector3 currentPos = cam.ScreenToWorldPoint (touch.position);
+                        controlledObjectRb.AddForce ((currentPos - lastPos) * speed, ForceMode.VelocityChange);
+                        lastPos = currentPos;
                     }
                     break;
 
-                case TouchPhase.Ended: // Touch End
+                case TouchPhase.Ended: // Touch End -- TouchPhase.Canceled
                     if (controlledObjectRb != null) {
                         controlledObjectRb.velocity = Vector3.zero; // Resets the velocity
                         controlledObjectRb = null;
@@ -121,5 +106,7 @@ public class PlayerController : MonoBehaviour {
                     break;
             }
         }
+        // Touch Input - End
     }
+
 }

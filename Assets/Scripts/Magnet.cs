@@ -12,11 +12,13 @@ public class Magnet : MonoBehaviour, IMagnetism {
     [SerializeField] Material negativeMaterial;
     [SerializeField] Material positiveMaterial;
     [SerializeField] public Polarization polarization = Polarization.Positive;
-    [SerializeField] public float magOfMagneticCharge = 200;
-    [SerializeField] int magnetismColliderRadius = 3;
+    [SerializeField] public float magOfMagneticCharge = 80;
     [SerializeField] bool isMagnet;
-    SphereCollider magnetismCollider;
     Rigidbody rb;
+    List<GameObject> magnetismObjects = new List<GameObject> ();
+
+    //[SerializeField] int magnetismColliderRadius = 3; // Magnetism Collider Radius
+    //SphereCollider magnetismCollider; // Magnetism Collider that detects other magnet/metals
 
     void Awake () {
         // If gameobject has Rigidbody component => it will be magnet
@@ -24,6 +26,11 @@ public class Magnet : MonoBehaviour, IMagnetism {
         if (rb != null) {
             isMagnet = true;
 
+            // Freezing Rotation on X and Z Axis (objects with Box Collider)
+            if (GetComponent<Collider> ().GetType () == typeof (BoxCollider))
+                rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+
+            /* Magnetism Collider Related
             // SphereCollider as Trigger => to detect other magnet/metals
             GameObject child = new GameObject ();
             child.name = Constants.nameCollider;
@@ -32,6 +39,7 @@ public class Magnet : MonoBehaviour, IMagnetism {
             magnetismCollider.isTrigger = true;
             child.transform.SetParent (transform);
             child.transform.localPosition = Vector3.zero;
+            */
 
             // Setting name and material
             switch (polarization) {
@@ -50,6 +58,24 @@ public class Magnet : MonoBehaviour, IMagnetism {
         }
     }
 
+    void Start () {
+        if (magnetismObjects.Count == 0) {
+            // Caching magnet/metals for performance
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag (Constants.draggableTag)) {
+                // every magnet/metal is added except self
+                if (this.gameObject != go) {
+                    magnetismObjects.Add (go);
+                }
+            }
+        }
+    }
+
+    // Every Fixed Update applying magnetic force to the rigidbody
+    void FixedUpdate () {
+        ApplyMagneticForces (magnetismObjects);
+    }
+
+    /* Magnetism Collider Related
     // SphereCollider(trigger) under child object will detect other magnet/metals
     void OnTriggerStay (Collider other) {
         switch (other.name) {
@@ -62,6 +88,24 @@ public class Magnet : MonoBehaviour, IMagnetism {
             case Constants.namePositive:
                 ApplyMagneticForce (Constants.permeability, magOfMagneticCharge, other.GetComponent<Magnet> ().magOfMagneticCharge, other.transform.position, (int) other.GetComponent<Magnet> ().polarization);
                 break;
+        }
+    }
+    */
+
+    // Applies every available Magnetic Force
+    public void ApplyMagneticForces (List<GameObject> goList) {
+        foreach (GameObject magnetismObject in goList) {
+            switch (magnetismObject.name) {
+                case Constants.nameMetal:
+                    ApplyMagneticForce (Constants.permeability, magOfMagneticCharge, magnetismObject.GetComponent<Metal> ().magneticChargeCapacity, magnetismObject.transform.position, magnetismObject.GetComponent<Metal> ().polarization);
+                    break;
+                case Constants.nameNegative:
+                    ApplyMagneticForce (Constants.permeability, magOfMagneticCharge, magnetismObject.GetComponent<Magnet> ().magOfMagneticCharge, magnetismObject.transform.position, (int) magnetismObject.GetComponent<Magnet> ().polarization);
+                    break;
+                case Constants.namePositive:
+                    ApplyMagneticForce (Constants.permeability, magOfMagneticCharge, magnetismObject.GetComponent<Magnet> ().magOfMagneticCharge, magnetismObject.transform.position, (int) magnetismObject.GetComponent<Magnet> ().polarization);
+                    break;
+            }
         }
     }
 
